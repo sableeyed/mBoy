@@ -33,7 +33,7 @@ cartridge_t *load_cartridge(char *filename) {
             return NULL;
         }
 
-        c->title = strdup(filename);
+        c->title = (uint8_t *) strdup(filename);
     }
     fclose(file);
     return c;

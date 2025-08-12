@@ -25,16 +25,16 @@ endif
 ifeq ($(TARGET_OS),windows)
     EXE_EXT := .exe
     MKDIR_CMD = if not exist $(BUILD) mkdir $(BUILD) & if not exist $(BIN) mkdir $(BIN)
-    RM_CMD = if exist $(BUILD) del /F /Q $(BUILD)\* & if exist $(BIN) del /F /Q $(BIN)\*
+    RM_CMD = if exist $(BUILD) del /F /Q $(BUILD)\* & if exist $(BIN) del /F /Q $(BIN)\*.exe
     CFLAGS += -DWINDOWS_BUILD
     CFLAGS += -IC:\sdl3\include #replace with the path to your SDL3 installation
-    CFLAGS += -mwindows
+    #CFLAGS += -mwindows
 
     ifeq ($(LINK_TYPE), static)
         LDFLAGS = C:\sdl3\lib\libSDL3.a -static -lmingw32 -limm32 -lole32 -lwinmm -ldxguid \
-            -lsetupapi -lversion -loleaut32 -luuid -lcfgmgr32 # Static linking for Windows
+            -lsetupapi -lversion -loleaut32 -luuid -lcfgmgr32 -lcomdlg32 # Static linking for Windows
     else
-        LDFLAGS = -L C:\sdl3\lib -lSDL3 # Dynamic linking for Windows
+        LDFLAGS = -L C:\sdl3\lib -lSDL3 -lcomdlg32 # Dynamic linking for Windows
     endif
 else
     EXE_EXT :=
