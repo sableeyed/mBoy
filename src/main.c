@@ -9,6 +9,7 @@
 #include "io.h"
 #include "cartridge.h"
 #include "memview.h"
+#include "cpu.h"
 
 #define ID_OPEN 1
 #define ID_ABOUT 2
@@ -16,7 +17,15 @@
 
 cartridge_t *cart;
 
+static void show_nintendo_boot(SDL_Window* win, int ms);
+
 int main(int argc, char **argv) {
+    if(AllocConsole()) {
+        FILE *dummy;
+        freopen_s(&dummy, "CONOUT$", "w", stdout);
+        freopen_s(&dummy, "CONOUT$", "w", stderr);
+    }
+
     SDL_Window *window;
     bool done = false;
 
@@ -43,8 +52,12 @@ int main(int argc, char **argv) {
         AppendMenu(hMenu, MF_STRING, ID_EXIT, "Exit");
         AppendMenu(hMenuBar, MF_POPUP, (UINT_PTR) hMenu, "File");
         SetMenu(mboyHwnd, hMenuBar);
+        SDL_RaiseWindow(window);
     }
     
+    show_nintendo_boot(window, 1500);
+    cpu_t cpu;
+
     MSG msg;
     while(!done) {
         while(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
@@ -54,13 +67,11 @@ int main(int argc, char **argv) {
             else if(msg.message == WM_COMMAND) {
                 switch(LOWORD(msg.wParam)) {
                     case ID_OPEN:
-                        printf("Open ROM\n");
                         char *path = get_rom(mboyHwnd);
-                        printf("%s\n", path);
                         cart = load_cartridge(path);
-                        hex_dump(cart->rom, cart->size);
                         free(path);
-                        system("pause");
+                        cpu_init(&cpu, cart);
+                        cpu.hwnd = mboyHwnd;
                         break;
                     case ID_ABOUT:
                         printf("About MasochistBoy\n");
@@ -81,11 +92,67 @@ int main(int argc, char **argv) {
                 done = true;
             }
         }
+
+        if(cart) {
+            cpu_step(&cpu);
+        }
+        SDL_Delay(1);
     }
 
     SDL_DestroyWindow(window);
 
     SDL_Quit();
 
+    free_cartridge(cart);
+
     return 0;
+}
+
+/*
+ * Get rid of this once we actually implement graphics
+*/
+static void show_nintendo_boot(SDL_Window* win, int ms) {
+    // Fill window white using GDI, then draw the text "Nintendo"
+    SDL_PropertiesID props = SDL_GetWindowProperties(win);
+    //HWND hwnd = (HWND)SDL_GetProperty(props, SDL_PROP_WINDOW_WIN32_HWND_POINTER, NULL);
+    HWND hwnd = (HWND) SDL_GetPointerProperty(props, SDL_PROP_WINDOW_WIN32_HWND_POINTER, NULL);
+    if (!hwnd) return;
+
+    RECT rc; GetClientRect(hwnd, &rc);
+    HDC hdc = GetDC(hwnd);
+
+    HBRUSH white = CreateSolidBrush(RGB(255,255,255));
+    FillRect(hdc, &rc, white);
+    DeleteObject(white);
+
+    SetBkMode(hdc, TRANSPARENT);
+    SetTextColor(hdc, RGB(0,0,0));
+
+    // Big, bold, centered-ish
+    HFONT font = CreateFontA(
+        (rc.bottom - rc.top) / 5, 0, 0, 0, FW_BOLD,
+        FALSE, FALSE, FALSE, ANSI_CHARSET,
+        OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
+        DEFAULT_PITCH | FF_DONTCARE, "Arial");
+    HFONT old = (HFONT)SelectObject(hdc, font);
+
+    const char* txt = "Nintendo";
+    SIZE sz; GetTextExtentPoint32A(hdc, txt, (int)strlen(txt), &sz);
+    int x = (rc.right - rc.left - sz.cx)/2;
+    int y = (rc.bottom - rc.top - sz.cy)/2;
+    TextOutA(hdc, x, y, txt, (int)strlen(txt));
+
+    SelectObject(hdc, old);
+    DeleteObject(font);
+    ReleaseDC(hwnd, hdc);
+
+    // Keep window responsive while we "display the logo"
+    Uint64 start = SDL_GetTicks();
+    SDL_Event e;
+    while ((int)(SDL_GetTicks() - start) < ms) {
+        while (SDL_PollEvent(&e)) {
+            if (e.type == SDL_EVENT_QUIT) return;
+        }
+        SDL_Delay(10);
+    }
 }

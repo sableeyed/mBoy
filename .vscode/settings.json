@@ -3,6 +3,7 @@
         "windows.h": "c",
         "memview.h": "c",
         "windowsx.h": "c",
-        "io.h": "c"
+        "io.h": "c",
+        "commdlg.h": "c"
     }
 }
