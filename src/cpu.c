@@ -26,10 +26,11 @@ void cpu_write8(cpu_t *cpu, uint16_t addr, uint8_t value) {
 void cpu_step(cpu_t *cpu) {
     if (!cpu) { return; }
 
-    uint16_t pc = 0x0100;
-    uint8_t opcode = cpu_read8(cpu, pc++);
+    static uint16_t pc = 0x0100;
+    uint8_t opcode = cpu_read8(cpu, pc);
 
     cpu_unimplemented(cpu, opcode);
+    pc++;
 }
 
 void cpu_unimplemented(cpu_t *cpu, uint8_t opcode) {
