@@ -10,14 +10,17 @@
 #include "cartridge.h"
 #include "memview.h"
 #include "cpu.h"
+#include "display.h"
 
 #define ID_OPEN 1
 #define ID_ABOUT 2
 #define ID_EXIT 3
 
 cartridge_t *cart;
-
-static void show_nintendo_boot(SDL_Window* win, int ms);
+cpu_t cpu;
+SDL_Window *window;
+SDL_Renderer *renderer;
+bool done = false;
 
 int main(int argc, char **argv) {
     if(AllocConsole()) {
@@ -26,12 +29,12 @@ int main(int argc, char **argv) {
         freopen_s(&dummy, "CONOUT$", "w", stderr);
     }
 
-    SDL_Window *window;
-    bool done = false;
-
     SDL_Init(SDL_INIT_VIDEO);
 
     window = SDL_CreateWindow("MasochistBoy", 640, 480, SDL_WINDOW_OPENGL);
+    renderer = SDL_CreateRenderer(window, NULL);
+    init_display(renderer);
+    
 
     if(NULL == window) {
         SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Window could not be created! SDL_Error: %s\n", SDL_GetError());
@@ -54,9 +57,6 @@ int main(int argc, char **argv) {
         SetMenu(mboyHwnd, hMenuBar);
         SDL_RaiseWindow(window);
     }
-    
-    show_nintendo_boot(window, 1500);
-    cpu_t cpu;
 
     MSG msg;
     while(!done) {
@@ -93,6 +93,12 @@ int main(int argc, char **argv) {
             }
         }
 
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderClear(renderer);
+
+        display_renderer(renderer);
+        SDL_RenderPresent(renderer);
+
         if(cart) {
             cpu_step(&cpu);
         }
@@ -106,53 +112,4 @@ int main(int argc, char **argv) {
     free_cartridge(cart);
 
     return 0;
-}
-
-/*
- * Get rid of this once we actually implement graphics
-*/
-static void show_nintendo_boot(SDL_Window* win, int ms) {
-    // Fill window white using GDI, then draw the text "Nintendo"
-    SDL_PropertiesID props = SDL_GetWindowProperties(win);
-    //HWND hwnd = (HWND)SDL_GetProperty(props, SDL_PROP_WINDOW_WIN32_HWND_POINTER, NULL);
-    HWND hwnd = (HWND) SDL_GetPointerProperty(props, SDL_PROP_WINDOW_WIN32_HWND_POINTER, NULL);
-    if (!hwnd) return;
-
-    RECT rc; GetClientRect(hwnd, &rc);
-    HDC hdc = GetDC(hwnd);
-
-    HBRUSH white = CreateSolidBrush(RGB(255,255,255));
-    FillRect(hdc, &rc, white);
-    DeleteObject(white);
-
-    SetBkMode(hdc, TRANSPARENT);
-    SetTextColor(hdc, RGB(0,0,0));
-
-    // Big, bold, centered-ish
-    HFONT font = CreateFontA(
-        (rc.bottom - rc.top) / 5, 0, 0, 0, FW_BOLD,
-        FALSE, FALSE, FALSE, ANSI_CHARSET,
-        OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
-        DEFAULT_PITCH | FF_DONTCARE, "Arial");
-    HFONT old = (HFONT)SelectObject(hdc, font);
-
-    const char* txt = "Nintendo";
-    SIZE sz; GetTextExtentPoint32A(hdc, txt, (int)strlen(txt), &sz);
-    int x = (rc.right - rc.left - sz.cx)/2;
-    int y = (rc.bottom - rc.top - sz.cy)/2;
-    TextOutA(hdc, x, y, txt, (int)strlen(txt));
-
-    SelectObject(hdc, old);
-    DeleteObject(font);
-    ReleaseDC(hwnd, hdc);
-
-    // Keep window responsive while we "display the logo"
-    Uint64 start = SDL_GetTicks();
-    SDL_Event e;
-    while ((int)(SDL_GetTicks() - start) < ms) {
-        while (SDL_PollEvent(&e)) {
-            if (e.type == SDL_EVENT_QUIT) return;
-        }
-        SDL_Delay(10);
-    }
 }
