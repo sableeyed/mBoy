@@ -3,6 +3,8 @@
 #include <string.h>
 #include <stdio.h>
 
+//Refactor incoming - memory to be separated
+
 void cpu_init(cpu_t *cpu, cartridge_t *cart) {
     if(!cpu || !cart) {
         fprintf(stderr, "CPU init failed\n");
@@ -26,7 +28,7 @@ void cpu_write8(cpu_t *cpu, uint16_t addr, uint8_t value) {
 void cpu_step(cpu_t *cpu) {
     if (!cpu) { return; }
 
-    static uint16_t pc = 0x0100;
+    static uint16_t pc = 0x0000;
     uint8_t opcode = cpu_read8(cpu, pc);
 
     cpu_unimplemented(cpu, opcode);

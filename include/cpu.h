@@ -10,6 +10,10 @@
 #include "cartridge.h"
 #include <windows.h>
 
+/*
+ * ld a, b -> ld dst, src (intel syntax)
+ */
+
 typedef struct cpu_t {
     uint8_t memory[0x10000];
     HWND hwnd; //do we need this?

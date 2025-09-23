@@ -1,4 +1,5 @@
 #include "display.h"
+#include <stdio.h>
 
 COLOR framebuffer[SCREEN_WIDTH * SCREEN_HEIGHT];
 static SDL_Texture *texture = NULL;

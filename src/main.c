@@ -23,11 +23,11 @@ SDL_Renderer *renderer;
 bool done = false;
 
 int main(int argc, char **argv) {
-    if(AllocConsole()) {
-        FILE *dummy;
-        freopen_s(&dummy, "CONOUT$", "w", stdout);
-        freopen_s(&dummy, "CONOUT$", "w", stderr);
-    }
+    // if(AllocConsole()) {
+    //     FILE *dummy;
+    //     freopen_s(&dummy, "CONOUT$", "w", stdout);
+    //     freopen_s(&dummy, "CONOUT$", "w", stderr);
+    // }
 
     SDL_Init(SDL_INIT_VIDEO);
 
