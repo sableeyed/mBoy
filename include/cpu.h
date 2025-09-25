@@ -53,5 +53,7 @@ void dec_d(); //0x15
 void ld_d_u8(uint8_t value); //0x16
 void rla(); //0x17
 void jr_i8(uint8_t value); //0x18
+void add_hl_de(); //0x19
+void ld_a_dep(uint8_t value); //0x1a
 
 #endif
