@@ -52,8 +52,22 @@ void inc_d(); //0x14
 void dec_d(); //0x15
 void ld_d_u8(uint8_t value); //0x16
 void rla(); //0x17
-void jr_i8(uint8_t value); //0x18
+void jr_i8(int8_t value); //0x18 -- unconditional jump to relative address
 void add_hl_de(); //0x19
-void ld_a_dep(uint8_t value); //0x1a
+void ld_a_dep(); //0x1a
+void dec_de(); //0x1b
+void inc_e(); //0x1c
+void dec_e(); //0x1d
+void ld_e_u8(uint8_t value); //0x1e
+void rra(); //0x1f
+void jr_nz_i8(int8_t value); //0x20 -- conditional jump to relative address if not zero
+void ld_hl_u16(uint16_t value); //0x21
+void ldi_hlp_a(); //0x22 
+void inc_hl(); //0x23
+void inc_h(); //0x24
+void dec_h(); //0x25
+void ld_h_u8(uint8_t value); //0x26
+void daa(); //0x27
+void jr_z_i8(int8_t value); //0x28 -- conditional jump to relative address if zero
 
 #endif
