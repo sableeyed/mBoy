@@ -69,5 +69,92 @@ void dec_h(); //0x25
 void ld_h_u8(uint8_t value); //0x26
 void daa(); //0x27
 void jr_z_i8(int8_t value); //0x28 -- conditional jump to relative address if zero
+void add_hl_hl(); //0x29
+void ldi_a_hlp(); //0x2a
+void dec_hl(); //0x2b
+void inc_l(); //0x2c
+void dec_l(); //0x2d
+void ld_l_u8(uint8_t value); //0x2e
+void cpl(); //0x2f
+void jr_nc_i8(int8_t value); //0x30
+void ld_sp_u16(uint16_t value); //0x31
+void ld_hlp_a(); //0x32
+void inc_sp(); //0x33
+void inc_hlp(); //0x34
+void dec_hlp(); //0x35
+void ld_hlp_u8(uint8_t value); //0x36
+void scf(); //0x37
+void jr_c_i8(int8_t value); //0x38
+void add_hl_sp(); //0x39
+void ld_a_hlp(); //0x3a
+void dec_sp(); //0x3b
+void inc_a(); //0x3c
+void dec_a(); //0x3d
+void ld_a_u8(uint8_t value); //0x3e
+void ccf(); //0x3f
+void ld_b(); //0x40
+void ld_b_c(); //0x41
+void ld_b_d(); //0x42
+void ld_b_e(); //0x43
+void ld_b_h(); //0x44
+void ld_b_l(); //0x45
+void ld_b_hlp(); //0x46
+void ld_b_a(); //0x47
+void ld_c_b(); //0x48
+void ld_c(); //0x49
+void ld_c_d(); //0x4a
+void ld_c_e(); //0x4b
+void ld_c_h(); //0x4c
+void ld_c_l(); //0x4d
+void ld_c_hlp(); //0x4e
+void ld_c_a(); //0x4f
+void ld_d_b(); //0x50
+void ld_d_c(); //0x51
+void ld_d(); //0x52
+void ld_d_e(); //0x53
+void ld_d_h(); //0x54
+void ld_d_l(); //0x55
+void ld_d_hlp(); //0x56
+void ld_d_a(); //0x57
+void ld_e_b(); //0x58
+void ld_e_c(); //0x59
+void ld_e_d(); //0x5a
+void ld_e_e(); //0x5b
+void ld_e_h(); //0x5c
+void ld_e_l(); //0x5d
+void ld_e_hlp(); //0x5e
+void ld_e_a(); //0x5f
+void ld_h_b(); //0x60
+void ld_h_c(); //0x61
+void ld_h_d(); //0x62
+void ld_h_e(); //0x63
+void ld_h(); //0x64
+void ld_h_l(); //0x65
+void ld_h_hlp(); //0x66
+void ld_h_a(); //0x67
+void ld_l_b(); //0x68
+void ld_l_c(); //0x69
+void ld_l_d(); //0x6a
+void ld_l_e(); //0x6b
+void ld_l_h(); //0x6c
+void ld_l(); //0x6d
+void ld_l_hlp(); //0x6e
+void ld_l_a(); //0x6f
+void ld_hlp_b(); //0x70
+void ld_hlp_c(); //0x71
+void ld_hlp_d(); //0x72
+void ld_hlp_e(); //0x73
+void ld_hlp_h(); //0x74
+void ld_hlp_l(); //0x75
+void halt(); //0x76
+void ld_hlp_a(); //0x77
+void ld_a_b(); //0x78
+void ld_a_c(); //0x79
+void ld_a_d(); //0x7a
+void ld_a_e(); //0x7b
+void ld_a_h(); //0x7c
+void ld_a_l(); //0x7d
+void ld_a_hlp(); //0x7e
+void ld_a(); //0x7f
 
 #endif
