@@ -156,5 +156,85 @@ void ld_a_h(); //0x7c
 void ld_a_l(); //0x7d
 void ld_a_hlp(); //0x7e
 void ld_a(); //0x7f
+void add_a_b(); //0x80
+void add_a_c(); //0x81
+void add_a_d(); //0x82
+void add_a_e(); //0x83
+void add_a_h(); //0x84
+void add_a_l(); //0x85
+void add_a_hlp(); //0x86
+void add_a(); //0x87
+void adc_a_b(); //0x88
+void adc_a_c(); //0x89
+void adc_a_d(); //0x8a
+void adc_a_e(); //0x8b
+void adc_a_h(); //0x8c
+void adc_a_l(); //0x8d
+void adc_a_hlp(); //0x8e
+void adc_a(); //0x8f
+void sub_a_b(); //0x90
+void sub_a_c(); //0x91
+void sub_a_d(); //0x92
+void sub_a_e(); //0x93
+void sub_a_h(); //0x94
+void sub_a_l(); //0x95
+void sub_a_hlp(); //0x96
+void sub_a(); //0x97
+void sbc_a_b(); //0x98
+void sbc_a_c(); //0x99
+void sbc_a_d(); //0x9a
+void sbc_a_e(); //0x9b
+void sbc_a_h(); //0x9c
+void sbc_a_l(); //0x9d
+void sbc_a_hlp(); //0x9e
+void sbc_a(); //0x9f
+void and_a_b(); //0xa0
+void and_a_c(); //0xa1
+void and_a_d(); //0xa2
+void and_a_e(); //0xa3
+void and_a_h(); //0xa4
+void and_a_l(); //0xa5
+void and_a_hlp(); //0xa6
+void and_a(); //0xa7
+void xor_a_b(); //0xa8
+void xor_a_c(); //0xa9
+void xor_a_d(); //0xaa
+void xor_a_e(); //0xab
+void xor_a_h(); //0xac
+void xor_a_l(); //0xad
+void xor_a_hlp(); //0xae
+void xor_a(); //0xaf
+void or_a_b(); //0xb0
+void or_a_c(); //0xb1
+void or_a_d(); //0xb2
+void or_a_e(); //0xb3
+void or_a_h(); //0xb4
+void or_a_l(); //0xb5
+void or_a_hlp(); //0xb6
+void or_a(); //0xb7
+void cp_a_b(); //0xb8
+void cp_a_c(); //0xb9
+void cp_a_d(); //0xba
+void cp_a_e(); //0xbb
+void cp_a_h(); //0xbc
+void cp_a_l(); //0xbd
+void cp_a_hlp(); //0xbe
+void cp_a(); //0xbf
+void ret_nz(); //0xc0
+void pop_bc(); //0xc1
+void jp_nz_u16(uint16_t value); //0xc2
+void jp_u16(uint16_t value); //0xc3
+void call_nz_u16(uint16_t value); //0xc4
+void push_bc(); //0xc5
+void add_a_u8(uint8_t value); //0xc6
+void rst_00(); //0xc7
+void ret_z(); //0xc8
+void ret(); //0xc9
+void jp_z_u16(uint16_t value); //0xca
+void prefix_cb(); //0xcb
+void call_z_u16(uint16_t value); //0xcc
+void call_u16(uint16_t value); //0xcd
+void adc_a_u8(uint8_t value); //0xce
+void rst_08(); //0xcf
 
 #endif
