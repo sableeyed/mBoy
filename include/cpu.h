@@ -282,8 +282,8 @@ void ld_a_u16p(uint16_t operand); //0xfa
 void ei(); //0xfb
 //0xfc
 //0xfd
-cp_a_u8(uint8_t operand); //0xfe
-rst_38(); //0xff
+void cp_a_u8(uint8_t operand); //0xfe
+void rst_38(); //0xff
 
 //CB instructions todo
 
