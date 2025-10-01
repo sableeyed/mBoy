@@ -15,6 +15,7 @@
 #define ID_OPEN 1
 #define ID_ABOUT 2
 #define ID_EXIT 3
+#define ID_DEBUGGER 4
 
 cartridge_t *cart;
 cpu_t cpu;
@@ -49,11 +50,15 @@ int main(int argc, char **argv) {
 
     if(mboyHwnd) {
         HMENU hMenuBar = CreateMenu();
-        HMENU hMenu = CreateMenu();
-        AppendMenu(hMenu, MF_STRING, ID_OPEN, "Open");
-        AppendMenu(hMenu, MF_STRING, ID_ABOUT, "About");
-        AppendMenu(hMenu, MF_STRING, ID_EXIT, "Exit");
-        AppendMenu(hMenuBar, MF_POPUP, (UINT_PTR) hMenu, "File");
+        HMENU fileMenu = CreateMenu();
+        HMENU toolMenu = CreateMenu();
+        AppendMenu(fileMenu, MF_STRING, ID_OPEN, "Open");
+        AppendMenu(fileMenu, MF_STRING, ID_ABOUT, "About");
+        AppendMenu(fileMenu, MF_STRING, ID_EXIT, "Exit");
+        AppendMenu(hMenuBar, MF_POPUP, (UINT_PTR) fileMenu, "File");
+
+        AppendMenu(toolMenu, MF_STRING, ID_DEBUGGER, "Debugger");
+        AppendMenu(hMenuBar, MF_POPUP, (UINT_PTR) toolMenu, "Tools");
         SetMenu(mboyHwnd, hMenuBar);
         SDL_RaiseWindow(window);
     }
