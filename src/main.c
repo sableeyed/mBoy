@@ -78,21 +78,24 @@ int main(int argc, char **argv) {
             }
             else if(msg.message == WM_COMMAND) {
                 switch(LOWORD(msg.wParam)) {
-                    case ID_OPEN:
+                    case ID_OPEN: {
                         char *path = get_rom(mboyHwnd);
                         cart = load_cartridge(path);
                         free(path);
                         cpu_init(&cpu, cart);
                         cpu.hwnd = mboyHwnd;
                         break;
-                    case ID_ABOUT:
+                    }
+                    case ID_ABOUT: {
                         printf("About MasochistBoy\n");
                         MessageBox(mboyHwnd, "MasochistBoy", "About", MB_OK | MB_ICONINFORMATION);
                         break;
-                    case ID_EXIT:
+                    }
+                    case ID_EXIT: {
                         done = true;
                         break;
-                    case ID_DEBUGGER:
+                    }
+                    case ID_DEBUGGER: {
                         HWND dbg = CreateWindowEx(
                             0,
                             "DBG",
@@ -104,6 +107,7 @@ int main(int argc, char **argv) {
                         ShowWindow(dbg, SW_SHOW);
                         UpdateWindow(dbg);
                         break;
+                    }
                 }
             }
             TranslateMessage(&msg);

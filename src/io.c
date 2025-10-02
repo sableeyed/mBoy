@@ -17,7 +17,7 @@ char *get_rom(HWND hwnd) {
     file.lpstrTitle = "Select ROM";
 
     if(GetOpenFileName(&file)) {
-        char *result = malloc(strlen(path) + 1);
+        char *result = (char *)malloc(strlen(path) + 1);
         if(!result) { return NULL; }
         strcpy(result, path);
         return result;
