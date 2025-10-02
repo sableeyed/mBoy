@@ -28,7 +28,7 @@ ifeq ($(TARGET_OS),windows)
     RM_CMD = if exist $(BUILD) del /F /Q $(BUILD)\* & if exist $(BIN) del /F /Q $(BIN)\*.exe
     CFLAGS += -DWINDOWS_BUILD
     CFLAGS += -IC:\sdl3\include #replace with the path to your SDL3 installation
-    CFLAGS += -mwindows
+    #CFLAGS += -mwindows
 
     ifeq ($(LINK_TYPE), static)
         LDFLAGS = C:\sdl3\lib\libSDL3.a -static -lmingw32 -limm32 -lole32 -lwinmm -ldxguid \

@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
     //     freopen_s(&dummy, "CONOUT$", "w", stderr);
     // }
 
-    SDL_Init(SDL_INIT_VIDEO);
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_EVENTS);
 
     window = SDL_CreateWindow("MasochistBoy", 640, 480, SDL_WINDOW_OPENGL);
     renderer = SDL_CreateRenderer(window, NULL);
@@ -41,6 +41,13 @@ int main(int argc, char **argv) {
         SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Window could not be created! SDL_Error: %s\n", SDL_GetError());
         return 1;
     }
+
+    WNDCLASS dbgwc = {0};
+    dbgwc.lpfnWndProc = DefWindowProc;
+    dbgwc.hInstance = GetModuleHandle(0);
+    dbgwc.lpszClassName = "DBG";
+    RegisterClass(&dbgwc);
+
 
     /*
      * not portable which kinda defeats the purpose of SDL and cross platform..
@@ -84,6 +91,18 @@ int main(int argc, char **argv) {
                         break;
                     case ID_EXIT:
                         done = true;
+                        break;
+                    case ID_DEBUGGER:
+                        HWND dbg = CreateWindowEx(
+                            0,
+                            "DBG",
+                            "MasochistBoy Debugger",
+                            WS_OVERLAPPEDWINDOW | WS_VISIBLE,
+                            CW_USEDEFAULT, CW_USEDEFAULT, 640, 480,
+                            mboyHwnd, NULL, GetModuleHandle(0), NULL
+                        );
+                        ShowWindow(dbg, SW_SHOW);
+                        UpdateWindow(dbg);
                         break;
                 }
             }

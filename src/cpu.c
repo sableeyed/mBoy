@@ -5,6 +5,8 @@
 
 //Refactor incoming - memory to be separated
 
+CPURegisters registers;
+
 void cpu_init(cpu_t *cpu, cartridge_t *cart) {
     if(!cpu || !cart) {
         fprintf(stderr, "CPU init failed\n");
