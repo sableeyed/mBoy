@@ -15,12 +15,12 @@ BIN = bin
 SRCS := $(wildcard $(SRC)/*.c)
 OBJS := $(patsubst $(SRC)/%.c,$(BUILD)/%.o,$(SRCS))
 
-IMGUI_OBJS := $(BUILD)/imgui.o \
-              $(BUILD)/imgui_draw.o \
-              $(BUILD)/imgui_tables.o \
-              $(BUILD)/imgui_widgets.o \
-              $(BUILD)/imgui_impl_sdl3.o \
-              $(BUILD)/imgui_impl_sdl3renderer.o
+# IMGUI_OBJS := $(BUILD)/imgui.o \
+#               $(BUILD)/imgui_draw.o \
+#               $(BUILD)/imgui_tables.o \
+#               $(BUILD)/imgui_widgets.o \
+#               $(BUILD)/imgui_impl_sdl3.o \
+#               $(BUILD)/imgui_impl_sdl3renderer.o
 
 TARGET := $(BIN)/masochistboy
 
@@ -66,47 +66,47 @@ TARGET := $(BIN)/masochistboy$(EXE_EXT)
 # Default target
 all: $(TARGET)
 
-$(TARGET): $(OBJS) $(IMGUI_OBJS)
-	$(MKDIR_CMD)
-	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
-
-$(BUILD)/%.o: $(SRC)/%.c
-	$(MKDIR_CMD)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-$(BUILD)/imgui.o: C:/imgui/imgui.cpp
-	$(MKDIR_CMD)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-$(BUILD)/imgui_draw.o: C:/imgui/imgui_draw.cpp
-	$(MKDIR_CMD)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-$(BUILD)/imgui_tables.o: C:/imgui/imgui_tables.cpp
-	$(MKDIR_CMD)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-$(BUILD)/imgui_widgets.o: C:/imgui/imgui_widgets.cpp
-	$(MKDIR_CMD)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-$(BUILD)/imgui_impl_sdl3.o: C:/imgui/backends/imgui_impl_sdl3.cpp
-	$(MKDIR_CMD)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-$(BUILD)/imgui_impl_sdl3renderer.o: C:/imgui/backends/imgui_impl_sdlrenderer3.cpp
-	$(MKDIR_CMD)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-# ORIGINAL TARGETS FOR C ONLY PROJECT
-
-# $(TARGET): $(OBJS)
+# $(TARGET): $(OBJS) $(IMGUI_OBJS)
 # 	$(MKDIR_CMD)
-# 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+# 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
 
 # $(BUILD)/%.o: $(SRC)/%.c
 # 	$(MKDIR_CMD)
-# 	$(CC) $(CFLAGS) -c $< -o $@
+# 	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# $(BUILD)/imgui.o: C:/imgui/imgui.cpp
+# 	$(MKDIR_CMD)
+# 	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# $(BUILD)/imgui_draw.o: C:/imgui/imgui_draw.cpp
+# 	$(MKDIR_CMD)
+# 	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# $(BUILD)/imgui_tables.o: C:/imgui/imgui_tables.cpp
+# 	$(MKDIR_CMD)
+# 	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# $(BUILD)/imgui_widgets.o: C:/imgui/imgui_widgets.cpp
+# 	$(MKDIR_CMD)
+# 	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# $(BUILD)/imgui_impl_sdl3.o: C:/imgui/backends/imgui_impl_sdl3.cpp
+# 	$(MKDIR_CMD)
+# 	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# $(BUILD)/imgui_impl_sdl3renderer.o: C:/imgui/backends/imgui_impl_sdlrenderer3.cpp
+# 	$(MKDIR_CMD)
+# 	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# ORIGINAL TARGETS FOR C ONLY PROJECT
+
+$(TARGET): $(OBJS)
+	$(MKDIR_CMD)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+
+$(BUILD)/%.o: $(SRC)/%.c
+	$(MKDIR_CMD)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 # END ORIGINAL TARGETS FOR C ONLY PROJECT
 
