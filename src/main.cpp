@@ -6,11 +6,13 @@
 #include <windows.h>
 #include <windowsx.h>
 #include <commdlg.h>
-#include "io.h"
-#include "cartridge.h"
-#include "memview.h"
-#include "cpu.h"
-#include "display.h"
+extern "C" {
+    #include "io.h"
+    #include "cartridge.h"
+    #include "memview.h"
+    #include "cpu.h"
+    #include "display.h"
+}
 
 #define ID_OPEN 1
 #define ID_ABOUT 2
@@ -24,11 +26,7 @@ SDL_Renderer *renderer;
 bool done = false;
 
 int main(int argc, char **argv) {
-    // if(AllocConsole()) {
-    //     FILE *dummy;
-    //     freopen_s(&dummy, "CONOUT$", "w", stdout);
-    //     freopen_s(&dummy, "CONOUT$", "w", stderr);
-    // }
+// int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdshow) {
 
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_EVENTS);
 

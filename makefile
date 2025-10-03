@@ -12,15 +12,18 @@ INC = include
 BUILD = build
 BIN = bin
 
-SRCS := $(wildcard $(SRC)/*.c)
-OBJS := $(patsubst $(SRC)/%.c,$(BUILD)/%.o,$(SRCS))
 
-# IMGUI_OBJS := $(BUILD)/imgui.o \
-#               $(BUILD)/imgui_draw.o \
-#               $(BUILD)/imgui_tables.o \
-#               $(BUILD)/imgui_widgets.o \
-#               $(BUILD)/imgui_impl_sdl3.o \
-#               $(BUILD)/imgui_impl_sdl3renderer.o
+SRCS := $(wildcard $(SRC)/*.c) $(wildcard $(SRC)/*.cpp)
+OBJS := $(patsubst $(SRC)/%,$(BUILD)/%,$(SRCS:.c=.o))
+OBJS := $(patsubst $(SRC)/%,$(BUILD)/%,$(OBJS:.cpp=.o))
+
+
+IMGUI_OBJS := $(BUILD)/imgui.o \
+              $(BUILD)/imgui_draw.o \
+              $(BUILD)/imgui_tables.o \
+              $(BUILD)/imgui_widgets.o \
+              $(BUILD)/imgui_impl_sdl3.o \
+              $(BUILD)/imgui_impl_sdlrenderer3.o
 
 TARGET := $(BIN)/masochistboy
 
@@ -44,7 +47,7 @@ ifeq ($(TARGET_OS),windows)
 
     ifeq ($(LINK_TYPE), static)
         LDFLAGS = C:\sdl3\lib\libSDL3.a -static -lmingw32 -limm32 -lole32 -lwinmm -ldxguid \
-            -lsetupapi -lversion -loleaut32 -luuid -lcfgmgr32 -lcomdlg32 -luser32 -lgdi32 
+            -lsetupapi -lversion -loleaut32 -luuid -lcfgmgr32 -lcomdlg32 -luser32 -lgdi32
     else
         LDFLAGS = -L C:\sdl3\lib -lSDL3 -lcomdlg32 -luser32 -lgdi32
     endif
@@ -66,47 +69,52 @@ TARGET := $(BIN)/masochistboy$(EXE_EXT)
 # Default target
 all: $(TARGET)
 
-# $(TARGET): $(OBJS) $(IMGUI_OBJS)
-# 	$(MKDIR_CMD)
-# 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
-
-# $(BUILD)/%.o: $(SRC)/%.c
-# 	$(MKDIR_CMD)
-# 	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-# $(BUILD)/imgui.o: C:/imgui/imgui.cpp
-# 	$(MKDIR_CMD)
-# 	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-# $(BUILD)/imgui_draw.o: C:/imgui/imgui_draw.cpp
-# 	$(MKDIR_CMD)
-# 	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-# $(BUILD)/imgui_tables.o: C:/imgui/imgui_tables.cpp
-# 	$(MKDIR_CMD)
-# 	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-# $(BUILD)/imgui_widgets.o: C:/imgui/imgui_widgets.cpp
-# 	$(MKDIR_CMD)
-# 	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-# $(BUILD)/imgui_impl_sdl3.o: C:/imgui/backends/imgui_impl_sdl3.cpp
-# 	$(MKDIR_CMD)
-# 	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-# $(BUILD)/imgui_impl_sdl3renderer.o: C:/imgui/backends/imgui_impl_sdlrenderer3.cpp
-# 	$(MKDIR_CMD)
-# 	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-# ORIGINAL TARGETS FOR C ONLY PROJECT
-
-$(TARGET): $(OBJS)
+$(TARGET): $(OBJS) $(IMGUI_OBJS)
 	$(MKDIR_CMD)
-	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS) 
+    #-Wl,-subsystem,windows
 
 $(BUILD)/%.o: $(SRC)/%.c
 	$(MKDIR_CMD)
 	$(CC) $(CFLAGS) -c $< -o $@
+
+$(BUILD)/%.o: $(SRC)/%.cpp
+	$(MKDIR_CMD)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(BUILD)/imgui.o: C:/imgui/imgui.cpp
+	$(MKDIR_CMD)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(BUILD)/imgui_draw.o: C:/imgui/imgui_draw.cpp
+	$(MKDIR_CMD)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(BUILD)/imgui_tables.o: C:/imgui/imgui_tables.cpp
+	$(MKDIR_CMD)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(BUILD)/imgui_widgets.o: C:/imgui/imgui_widgets.cpp
+	$(MKDIR_CMD)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(BUILD)/imgui_impl_sdl3.o: C:/imgui/backends/imgui_impl_sdl3.cpp
+	$(MKDIR_CMD)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(BUILD)/imgui_impl_sdlrenderer3.o: C:/imgui/backends/imgui_impl_sdlrenderer3.cpp
+	$(MKDIR_CMD)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# ORIGINAL TARGETS FOR C ONLY PROJECT
+
+# $(TARGET): $(OBJS)
+# 	$(MKDIR_CMD)
+# 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+
+# $(BUILD)/%.o: $(SRC)/%.c
+# 	$(MKDIR_CMD)
+# 	$(CC) $(CFLAGS) -c $< -o $@
 
 # END ORIGINAL TARGETS FOR C ONLY PROJECT
 
