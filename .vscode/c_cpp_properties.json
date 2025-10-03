@@ -3,6 +3,7 @@
         {
             "name": "Win32",
             "includePath": [
+                "${workspaceFolder}/include",
                 "${workspaceFolder}/**",
                 "C:\\sdl3\\include"
             ],
